@@ -15,11 +15,11 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-require_relative '../robot'
-require_relative '../table'
-require_relative '../helpers/command_helper'
-require_relative '../helpers/command_parser_helper'
-require_relative '../helpers/robot_helper'
+require_relative '../lib/robot'
+require_relative '../lib/table'
+require_relative '../lib/helpers/command_helper'
+require_relative '../lib/helpers/command_parser_helper'
+require_relative '../lib/helpers/robot_helper'
 require 'byebug'
 # require 'byebug'
 RSpec.configure do |config|

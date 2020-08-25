@@ -159,4 +159,15 @@ describe Robot do
       end
     end
   end
+
+  describe '#report' do
+    it 'will report the current coordinates and facing of robot wherever it is placed' do
+      robot_with_table.place_robot(0, 4, 'NORTH')
+      expect(robot_with_table.report).to eq('0, 4, NORTH')
+    end
+
+    context 'When the robot is not placed onto the table' do
+      it { expect(robot.report).to eq('0, 0, NORTH') }
+    end    
+  end
 end
