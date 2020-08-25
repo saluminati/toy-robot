@@ -17,6 +17,8 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require_relative '../robot'
 require_relative '../table'
+require_relative '../helpers/command_helper'
+require_relative '../helpers/command_parser_helper'
 require_relative '../helpers/robot_helper'
 require 'byebug'
 # require 'byebug'

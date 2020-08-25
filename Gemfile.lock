@@ -45,6 +45,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler
   byebug
   nokogiri
   rack (~> 1.1)
