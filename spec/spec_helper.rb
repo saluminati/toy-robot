@@ -17,6 +17,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require_relative '../lib/robot'
 require_relative '../lib/table'
+require_relative '../lib/toy_robot_controller'
 require_relative '../lib/helpers/command_helper'
 require_relative '../lib/helpers/command_parser_helper'
 require_relative '../lib/helpers/robot_helper'

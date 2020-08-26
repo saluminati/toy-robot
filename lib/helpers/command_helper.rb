@@ -3,14 +3,15 @@
 require_relative '../constants/application_constants'
 # CommandHelper module
 module CommandHelper
-  def a_valid_place_command?(command) 
+  def a_valid_place_command?(command)
     return false if command.match(PLACE_COMMAND_PATTERN).nil?
+
     true
   end
 
   def split_place_command(place_command)
     result = place_command.match(PLACE_COMMAND_PATTERN)
-    result.captures unless result.nil?
+    result&.captures
   end
 
   def command_type(command)

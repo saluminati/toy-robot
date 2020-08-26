@@ -9,30 +9,42 @@ describe Robot do
     expect(robot.placed).to eq(false)
   end
 
-  describe '#place_robot' do
+  describe '#place' do
     context 'when table size is 5x5 and x, y are within the table bounds along with valid facing position' do
       it 'will successfully place the robot onto the table' do
-        robot_with_table.place_robot(0, 0, 'SOUTH')
+        robot_with_table.place(0, 0, 'SOUTH')
         expect(robot_with_table.placed).to eq(true)
       end
     end
 
     context 'when facing value is not valid' do
       it 'will raise InvalidFacing Exception' do
-        expect { robot_with_table.place_robot(0, 0, 'RANDOM') }.to raise_error(Exceptions::InvalidFacing)
+        expect { robot_with_table.place(0, 0, 'RANDOM') }.to raise_error(Exceptions::InvalidFacing)
+      end
+    end
+
+    context 'robot is already place' do
+      it 'will ignore any other place commands' do
+        robot_with_table.place(0, 0, 'SOUTH')
+        robot_with_table.place(1, 1, 'NORTH')
+        robot_with_table.place(1, 1, 'WEST')
+        robot_with_table.place(1, 1, 'EAST')
+        expect(robot_with_table.x).to eq(0)
+        expect(robot_with_table.y).to eq(0)
+        expect(robot_with_table.facing).to eq('SOUTH')
       end
     end
 
     context 'when coordinates are out of bounds' do
       it 'will raise TableOutOfBound Exception' do
-        expect { robot_with_table.place_robot(0, 50, 'SOUTH') }.to raise_error(Exceptions::TableOutOfBound)
+        expect { robot_with_table.place(0, 50, 'SOUTH') }.to raise_error(Exceptions::TableOutOfBound)
       end
     end
 
     context 'when table is nil' do
       it 'will raise TableIsNotSet Exception' do
         robot_with_table.table = nil
-        expect { robot_with_table.place_robot(0, 0, 'SOUTH') }.to raise_error(Exceptions::TableIsNotSet)
+        expect { robot_with_table.place(0, 0, 'SOUTH') }.to raise_error(Exceptions::TableIsNotSet)
       end
     end
   end
@@ -52,7 +64,7 @@ describe Robot do
 
     context 'when robot is facing NORTH' do
       it 'will rotate the robot towards WEST' do
-        robot_with_table.place_robot(0, 0, 'NORTH')
+        robot_with_table.place(0, 0, 'NORTH')
         robot_with_table.left
         expect(robot_with_table.facing).to eq('WEST')
       end
@@ -60,7 +72,7 @@ describe Robot do
 
     context 'when robot is facing WEST' do
       it 'will rotate the robot towards SOUTH' do
-        robot_with_table.place_robot(0, 0, 'WEST')
+        robot_with_table.place(0, 0, 'WEST')
         robot_with_table.left
         expect(robot_with_table.facing).to eq('SOUTH')
       end
@@ -68,7 +80,7 @@ describe Robot do
 
     context 'when robot is facing SOUTH' do
       it 'will rotate the robot towards EAST' do
-        robot_with_table.place_robot(0, 0, 'SOUTH')
+        robot_with_table.place(0, 0, 'SOUTH')
         robot_with_table.left
         expect(robot_with_table.facing).to eq('EAST')
       end
@@ -76,7 +88,7 @@ describe Robot do
 
     context 'when robot is facing EAST' do
       it 'will rotate the robot towards NORTH' do
-        robot_with_table.place_robot(0, 0, 'EAST')
+        robot_with_table.place(0, 0, 'EAST')
         robot_with_table.left
         expect(robot_with_table.facing).to eq('NORTH')
       end
@@ -98,7 +110,7 @@ describe Robot do
 
     context 'when robot is facing WEST' do
       it 'will rotate the robot towards NORTH' do
-        robot_with_table.place_robot(0, 0, 'WEST')
+        robot_with_table.place(0, 0, 'WEST')
         robot_with_table.right
         expect(robot_with_table.facing).to eq('NORTH')
       end
@@ -106,7 +118,7 @@ describe Robot do
 
     context 'when robot is facing NORTH' do
       it 'will rotate the robot towards EAST' do
-        robot_with_table.place_robot(0, 0, 'NORTH')
+        robot_with_table.place(0, 0, 'NORTH')
         robot_with_table.right
         expect(robot_with_table.facing).to eq('EAST')
       end
@@ -114,7 +126,7 @@ describe Robot do
 
     context 'when robot is facing EAST' do
       it 'will rotate the robot towards SOUTH' do
-        robot_with_table.place_robot(0, 0, 'EAST')
+        robot_with_table.place(0, 0, 'EAST')
         robot_with_table.right
         expect(robot_with_table.facing).to eq('SOUTH')
       end
@@ -122,7 +134,7 @@ describe Robot do
 
     context 'when robot is facing SOUTH' do
       it 'will rotate the robot towards WEST' do
-        robot_with_table.place_robot(0, 0, 'SOUTH')
+        robot_with_table.place(0, 0, 'SOUTH')
         robot_with_table.right
         expect(robot_with_table.facing).to eq('WEST')
       end
@@ -144,7 +156,7 @@ describe Robot do
 
     context 'when robot is placed at 0,0 NORTH' do
       it 'will result in 0, 1 NORTH' do
-        robot_with_table.place_robot(0, 0, 'NORTH')
+        robot_with_table.place(0, 0, 'NORTH')
         robot_with_table.move
         expect(robot_with_table.x).to eq(0)
         expect(robot_with_table.y).to eq(1)
@@ -154,7 +166,7 @@ describe Robot do
 
     context 'when robot is placed at 0,4 NORTH' do
       it 'raises TableOutOfBound exception' do
-        robot_with_table.place_robot(0, 4, 'NORTH')
+        robot_with_table.place(0, 4, 'NORTH')
         expect { robot_with_table.move }.to raise_error(Exceptions::TableOutOfBound)
       end
     end
@@ -162,12 +174,12 @@ describe Robot do
 
   describe '#report' do
     it 'will report the current coordinates and facing of robot wherever it is placed' do
-      robot_with_table.place_robot(0, 4, 'NORTH')
-      expect(robot_with_table.report).to eq('0, 4, NORTH')
+      robot_with_table.place(0, 4, 'NORTH')
+      expect(robot_with_table.report).to eq('0,4,NORTH')
     end
 
     context 'When the robot is not placed onto the table' do
-      it { expect(robot.report).to eq('0, 0, NORTH') }
-    end    
+      it { expect(robot.report).to eq('0,0,NORTH') }
+    end
   end
 end

@@ -15,7 +15,8 @@ class Robot
     @facing = 'NORTH'
   end
 
-  def place_robot(x, y, facing)
+  def place(x, y, facing)
+    return if @placed
     raise Exceptions::TableIsNotSet if @table.nil?
     raise Exceptions::TableOutOfBound unless @table.can_be_placed?(x, y)
     raise Exceptions::InvalidFacing unless DIRECTIONS.include?(facing)
@@ -50,10 +51,20 @@ class Robot
   end
 
   def report(format = 'console')
-    return "#{@x}, #{@y}, #{@facing}"
+    case format
+    when 'console'
+      to_s
+    else
+      { x: @x, y: @y, facing: @facing }
+    end
+  end
+
+  def to_s
+    "#{@x},#{@y},#{@facing}"
   end
 
   private
+
   def next_facing(arrow)
     return DIRECTIONS.last if @facing == DIRECTIONS.first && arrow == 'left'
     return DIRECTIONS.first if @facing == DIRECTIONS.last && arrow == 'right'

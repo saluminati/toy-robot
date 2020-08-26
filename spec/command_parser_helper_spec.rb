@@ -4,7 +4,7 @@ describe CommandParserHelper do
   include CommandParserHelper
 
   describe '#parse_command' do
-    let(:struct_blue_print) { { type: 'PLACE', value: ['0', '0', 'NORTH'], status: '', error: '' } }
+    let(:struct_blue_print) { { type: 'PLACE', value: %w[0 0 NORTH], status: '', error: '' } }
 
     context 'when the command is a valid PLACE command' do
       it 'will return an onject containing type, value, status and error' do
@@ -12,7 +12,7 @@ describe CommandParserHelper do
       end
 
       it { expect(parse_command('PLACE 0, 0, NORTH').type).to eq('PLACE') }
-      it { expect(parse_command('PLACE 0, 1, NORTH').value).to match_array(['0', '1', 'NORTH']) }
+      it { expect(parse_command('PLACE 0, 1, NORTH').value).to match_array(%w[0 1 NORTH]) }
       it { expect(parse_command('PLACE 0, 0, NORTH').status).to eq('') }
       it { expect(parse_command('PLACE 0, 0, NORTH').error).to eq('') }
     end

@@ -13,7 +13,7 @@ describe CommandHelper do
     it { expect(command_type('PLACE')).to eq('PLACE') }
     it { expect(command_type(nil)).to eq(nil) }
   end
-  
+
   describe '#valid_place_command?' do
     context 'when PLACE command is invalid' do
       it { expect(a_valid_place_command?('RANDOM')).to eq(false) }
@@ -32,11 +32,11 @@ describe CommandHelper do
 
   describe '#split_place_command' do
     context 'when the PLACE command is valid as per PLACE_COMMAND_PATTERN' do
-      it { expect(split_place_command('PLACE 0, 0, NORTH')).to match_array(['0', '0', 'NORTH']) }
-      it { expect(split_place_command('PLACE 20, 0, NORTH')).to match_array(['20', '0', 'NORTH']) }
-      it { expect(split_place_command('PLACE 0, 0, WEST')).to match_array(['0', '0', 'WEST']) }
-      it { expect(split_place_command('PLACE 0, 0, SOUTH')).to match_array(['0', '0', 'SOUTH']) }
-      it { expect(split_place_command('PLACE 100, 0, EAST')).to match_array(['100', '0', 'EAST']) }
+      it { expect(split_place_command('PLACE 0, 0, NORTH')).to match_array(%w[0 0 NORTH]) }
+      it { expect(split_place_command('PLACE 20, 0, NORTH')).to match_array(%w[20 0 NORTH]) }
+      it { expect(split_place_command('PLACE 0, 0, WEST')).to match_array(%w[0 0 WEST]) }
+      it { expect(split_place_command('PLACE 0, 0, SOUTH')).to match_array(%w[0 0 SOUTH]) }
+      it { expect(split_place_command('PLACE 100, 0, EAST')).to match_array(%w[100 0 EAST]) }
     end
 
     context 'when the PLACE command is not according to the PLACE_COMMAND_PATTERN' do

@@ -10,12 +10,15 @@ module CommandParserHelper
     type_of_command = command_type(command)
     return if type_of_command.nil?
     return if type_of_command == PLACE && a_valid_place_command?(command) == false
-    return command_object(type_of_command, command_value(command))
+
+    command_object(type_of_command, command_value(command))
   end
 
   private
+
   def command_value(command)
     return split_place_command(command) if place_command_and_valid?(command)
+
     command
   end
 
