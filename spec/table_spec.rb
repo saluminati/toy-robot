@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Table do
+describe Surface::Table do
   let(:table) { described_class.new }
 
   it 'should initialize and set the instance variables' do

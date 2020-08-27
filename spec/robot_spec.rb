@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-describe Robot do
+describe ToyRobot::Robot do
   let(:robot) { described_class.new }
-  let(:table) { Table.new }
+  let(:table) { Surface::Table.new }
   let(:robot_with_table) { described_class.new(table) }
 
   it 'should initialize and set the instance variables' do
@@ -19,7 +19,7 @@ describe Robot do
 
     context 'when facing value is not valid' do
       it 'will raise InvalidFacing Exception' do
-        expect { robot_with_table.place(0, 0, 'RANDOM') }.to raise_error(Exceptions::InvalidFacing)
+        expect { robot_with_table.place(0, 0, 'RANDOM') }.to raise_error(ToyRobot::InvalidFacing)
       end
     end
 
@@ -37,14 +37,14 @@ describe Robot do
 
     context 'when coordinates are out of bounds' do
       it 'will raise TableOutOfBound Exception' do
-        expect { robot_with_table.place(0, 50, 'SOUTH') }.to raise_error(Exceptions::TableOutOfBound)
+        expect { robot_with_table.place(0, 50, 'SOUTH') }.to raise_error(Surface::TableOutOfBound)
       end
     end
 
     context 'when table is nil' do
       it 'will raise TableIsNotSet Exception' do
         robot_with_table.table = nil
-        expect { robot_with_table.place(0, 0, 'SOUTH') }.to raise_error(Exceptions::TableIsNotSet)
+        expect { robot_with_table.place(0, 0, 'SOUTH') }.to raise_error(Surface::TableIsNotSet)
       end
     end
   end
@@ -52,13 +52,13 @@ describe Robot do
   describe '#left' do
     context 'when robot is not placed on the table yet' do
       it 'raises RobotIsNotPlaced exception' do
-        expect { robot_with_table.left }.to raise_error(Exceptions::RobotIsNotPlaced)
+        expect { robot_with_table.left }.to raise_error(ToyRobot::RobotIsNotPlaced)
       end
     end
 
     context 'when table is not set' do
       it 'raises TableIsNotSet exception' do
-        expect { robot.left }.to raise_error(Exceptions::TableIsNotSet)
+        expect { robot.left }.to raise_error(Surface::TableIsNotSet)
       end
     end
 
@@ -98,13 +98,13 @@ describe Robot do
   describe '#right' do
     context 'when robot is not placed on the table yet' do
       it 'raises RobotIsNotPlaced exception' do
-        expect { robot_with_table.right }.to raise_error(Exceptions::RobotIsNotPlaced)
+        expect { robot_with_table.right }.to raise_error(ToyRobot::RobotIsNotPlaced)
       end
     end
 
     context 'when table is not set' do
       it 'raises TableIsNotSet exception' do
-        expect { robot.right }.to raise_error(Exceptions::TableIsNotSet)
+        expect { robot.right }.to raise_error(Surface::TableIsNotSet)
       end
     end
 
@@ -144,13 +144,13 @@ describe Robot do
   describe '#move' do
     context 'when the table is not set' do
       it 'raises TableIsNotSet exception' do
-        expect { robot.move }.to raise_error(Exceptions::TableIsNotSet)
+        expect { robot.move }.to raise_error(Surface::TableIsNotSet)
       end
     end
 
     context 'when the robot is not placed' do
       it 'raises TableIsNotSet exception' do
-        expect { robot_with_table.move }.to raise_error(Exceptions::RobotIsNotPlaced)
+        expect { robot_with_table.move }.to raise_error(ToyRobot::RobotIsNotPlaced)
       end
     end
 
@@ -167,7 +167,7 @@ describe Robot do
     context 'when robot is placed at 0,4 NORTH' do
       it 'raises TableOutOfBound exception' do
         robot_with_table.place(0, 4, 'NORTH')
-        expect { robot_with_table.move }.to raise_error(Exceptions::TableOutOfBound)
+        expect { robot_with_table.move }.to raise_error(Surface::TableOutOfBound)
       end
     end
   end
@@ -179,7 +179,39 @@ describe Robot do
     end
 
     context 'When the robot is not placed onto the table' do
-      it { expect(robot.report).to eq('0,0,NORTH') }
+      it 'will rais RobotIsNotPlaced exception' do
+        expect { robot_with_table.report }.to raise_error(ToyRobot::RobotIsNotPlaced)
+      end
+    end
+  end
+
+  describe '#calculate_potential_movement' do
+    context 'when facing NORTH' do
+      it 'should do one step positive in y direction' do
+        result = robot_with_table.calculate_potential_movement('NORTH')
+        expect(result[:y]).to eq(1)
+      end
+    end
+
+    context 'when facing WEST' do
+      it 'should do one step positive in y direction' do
+        result = robot_with_table.calculate_potential_movement('WEST')
+        expect(result[:x]).to eq(-1)
+      end
+    end
+
+    context 'when facing SOUTH' do
+      it 'should do one step positive in y direction' do
+        result = robot_with_table.calculate_potential_movement('SOUTH')
+        expect(result[:y]).to eq(-1)
+      end
+    end
+
+    context 'when facing EAST' do
+      it 'should do one step positive in y direction' do
+        result = robot_with_table.calculate_potential_movement('EAST')
+        expect(result[:x]).to eq(1)
+      end
     end
   end
 end

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'robot'
-require_relative 'table'
+require_relative 'toy_robot/robot'
+require_relative 'surface/table'
 require_relative 'helpers/command_parser_helper'
-require_relative 'errors/exceptions'
+require_relative 'errors/command'
 # ToyRobotController module and main entry of the program
 module ToyRobotController
   class << self
@@ -11,23 +11,23 @@ module ToyRobotController
     include CommandParserHelper
 
     def init(commands_stream, split_using = /\n/, table_size = 5)
-      raise Exceptions::InvalidOrEmptyCommands if commands_stream.strip == ''
+      raise Command::InvalidOrEmptyCommands if commands_stream.strip == ''
 
       @commands_stream = commands_stream
       @split_using = split_using
-      @table = Table.new(table_size, table_size)
-      @robot = Robot.new(@table)
+      @table = Surface::Table.new(table_size, table_size)
+      @robot = ToyRobot::Robot.new(@table)
       @commands = []
       populate_commands
     end
 
-    def report(_format = 'console')
-      @robot.to_s
+    def report(format = 'console')
+      @robot.report(format)
     end
 
     def execute_commands
-      raise Exceptions::NoValidCommandsFound if @commands.size.zero?
-      raise Exceptions::PlaceCommandNotFound if @commands.select { |c| c.type == 'PLACE' }.size.zero?
+      raise Command::NoValidCommandsFound if @commands.size.zero?
+      raise Command::PlaceCommandNotFound if @commands.select { |c| c.type == 'PLACE' }.size.zero?
 
       @commands.each { |command| send_command_to_robot(command) }
     end
@@ -41,8 +41,8 @@ module ToyRobotController
       when 'MOVE', 'RIGHT', 'LEFT', 'REPORT'
         @robot.send(command.type.downcase)
       end
-    rescue Exceptions::RobotIsNotPlaced
-    rescue Exceptions::TableOutOfBound
+    rescue ToyRobot::RobotIsNotPlaced
+    rescue Surface::TableOutOfBound
     end
 
     def populate_commands
