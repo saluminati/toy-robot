@@ -10,11 +10,10 @@ module ToyRobotController
     attr_accessor :robot, :commands
     include CommandParserHelper
 
-    def init(commands_stream, split_using = /\n/, table_size = 5)
-      raise Command::InvalidOrEmptyCommands if commands_stream.strip == ''
+    def init(commands_stream, table_size = 5)
+      validate_command_stream(commands_stream)
 
       @commands_stream = commands_stream
-      @split_using = split_using
       @table = Surface::Table.new(table_size, table_size)
       @robot = ToyRobot::Robot.new(@table)
       @commands = []
@@ -41,12 +40,19 @@ module ToyRobotController
       when 'MOVE', 'RIGHT', 'LEFT', 'REPORT'
         @robot.send(command.type.downcase)
       end
-    rescue ToyRobot::RobotIsNotPlaced
-    rescue Surface::TableOutOfBound
+    rescue ToyRobot::RobotIsNotPlaced, Surface::TableOutOfBound => e
+      command.status = 'ignored'
+      command.error = e.to_s
+    end
+
+    def validate_command_stream(commands_stream)
+      raise Command::InvalidCommandStreamType unless commands_stream.is_a?(Array)
+      raise Command::InvalidOrEmptyCommands if commands_stream.size.zero?
+      raise Command::InvalidCommandType unless commands_stream.all? { |i| i.is_a? String }
     end
 
     def populate_commands
-      @commands_stream.split(@split_using).each do |command|
+      @commands_stream.each do |command|
         current_command = parse_command(command)
         @commands << current_command unless current_command.nil?
       end

@@ -20,6 +20,7 @@ require_relative '../lib/surface/table'
 require_relative '../lib/toy_robot_controller'
 require_relative '../lib/helpers/command_helper'
 require_relative '../lib/helpers/command_parser_helper'
+require_relative '../lib/helpers/command_set_loader'
 require 'byebug'
 # require 'byebug'
 RSpec.configure do |config|
