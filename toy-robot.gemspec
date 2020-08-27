@@ -3,7 +3,7 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
-  spec.name = "toy-robot"
+  spec.name = "toy-robot-simulator"
   spec.version = "0.0.1"
   spec.authors = ["Salman Sohail"]
   spec.date = "2020-08-27"

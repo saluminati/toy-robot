@@ -4,12 +4,16 @@ require_relative 'toy_robot/robot'
 require_relative 'surface/table'
 require_relative 'helpers/command_parser_helper'
 require_relative 'errors/command'
-# ToyRobotController module and main entry of the program
+
+# ToyRobotController module which sets up the Robot, Table and execute commands provided
 module ToyRobotController
   class << self
     attr_accessor :robot, :commands
     include CommandParserHelper
 
+    # This method is expecting [Array<String>] of commands such as ['PLACE 0,0,NORTH', 'MOVE', 'REPORT']
+    # @param commands_stream [Array<String>]
+    # @param table_size [Integer]
     def init(commands_stream, table_size = 5)
       validate_command_stream(commands_stream)
 
@@ -20,10 +24,18 @@ module ToyRobotController
       populate_commands
     end
 
+    # This method return the coordinates of Robot on the table and the direction it is facing
     def report(format = 'console')
       @robot.report(format)
     end
 
+    # Simply executes the commands array.
+    #
+    # considerations:
+    #
+    # @raise [Command::NoValidCommandsFound] if the commands array length is 0
+    #
+    # @raise [Command::PlaceCommandNotFound] if the commands array does not contain a valid PLACE command
     def execute_commands
       raise Command::NoValidCommandsFound if @commands.size.zero?
       raise Command::PlaceCommandNotFound if @commands.select { |c| c.type == 'PLACE' }.size.zero?
