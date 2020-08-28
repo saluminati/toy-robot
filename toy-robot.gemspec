@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name = 'toy-robot-simulator'
-  spec.version = '0.0.3'
+  spec.version = '0.0.4'
   spec.authors = ['Salman Sohail']
   spec.date = '2020-08-27'
   spec.summary = 'Ruby gem for Toy Robot test'

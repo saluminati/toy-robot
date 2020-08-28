@@ -24,14 +24,12 @@ describe ToyRobot::Robot do
     end
 
     context 'robot is already place' do
-      it 'will ignore any other place commands' do
+      it 'will place the robot again to the new coordinates and facing' do
         robot_with_table.place(0, 0, 'SOUTH')
         robot_with_table.place(1, 1, 'NORTH')
-        robot_with_table.place(1, 1, 'WEST')
-        robot_with_table.place(1, 1, 'EAST')
-        expect(robot_with_table.x).to eq(0)
-        expect(robot_with_table.y).to eq(0)
-        expect(robot_with_table.facing).to eq('SOUTH')
+        expect(robot_with_table.x).to eq(1)
+        expect(robot_with_table.y).to eq(1)
+        expect(robot_with_table.facing).to eq('NORTH')
       end
     end
 
