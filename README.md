@@ -4,13 +4,13 @@ _version: 0.0.1_
 
 The Ruby gem let the toy robot move a table painlessly, easily, and most importantly, **it does not fall from the table** 
 
-- [Full gem documentation (version 0.0.1)](https://www.rubydoc.info/gems/toy-robot-simulator/0.0.1/)
+- [Full gem documentation (version 0.0.3)](https://www.rubydoc.info/gems/toy-robot-simulator/0.0.3/)
 # Installation
 ```
 gem install toy-robot-simulator
 ```
 ```ruby
-gem "toy-robot-simulator", "~> 0.0.1"
+gem "toy-robot-simulator", "~> 0.0.3"
 ```
 ```
 bundle install
@@ -33,11 +33,7 @@ examples:
 ```ruby
 ToyRobotController.init(['PLACE 0,0,NORTH', 'MOVE'])
 ```
-**3. Execute the commands**
-```ruby
-ToyRobotController.execute_commands
-```
-**4. Report**
+**3. Report**
 ```ruby
 ToyRobotController.report
 ```
@@ -47,7 +43,6 @@ ToyRobotController.report
 
 ```ruby
 require  'helpers/command_set_loader'
-include CommandSetLoader
 ```
 ```ruby
 commands = CommandSetLoader.read_commands('./test_data/test1.txt')
@@ -57,7 +52,7 @@ commands = CommandSetLoader.read_commands('./test_data/test1.txt')
 ToyRobotController.init(commands)
 ```
 
-## Things to considered
+## Things to consider
 
  **init** method of ToyRobotController expects array of commands where all the commands should be type of **string**
  
@@ -68,6 +63,11 @@ MOVE
 REPORT
 ```
 
+## Change Log
+- Updated documentation
+- Added more readable comments in the code
+- Updated the CommandSetLoader
+
 ## TODO
 
 - Add configuration option 
@@ -77,3 +77,4 @@ REPORT
 - **CommandSetLoader** is reading file locally, would be a good idea to add the option to read the file remotely
 - Add obstructions on the table
 - Non square table 
+- Robot reports in multiple formats such as JSON, HTML, XML etc

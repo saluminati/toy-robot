@@ -22,6 +22,9 @@ require_relative '../lib/helpers/command_helper'
 require_relative '../lib/helpers/command_parser_helper'
 require_relative '../lib/helpers/command_set_loader'
 require 'byebug'
+require 'simplecov'
+SimpleCov.start
+
 # require 'byebug'
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

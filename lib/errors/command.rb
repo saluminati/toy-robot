@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# contains commands related error classes
 module Command
   class InvalidOrEmptyCommands < StandardError; end
   class InvalidCommandStreamType < StandardError; end
