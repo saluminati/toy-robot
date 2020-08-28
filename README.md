@@ -1,10 +1,10 @@
 
 # Toy Robot Simulator
-_version: 0.0.1_
+[![Gem Version](https://badge.fury.io/rb/toy-robot-simulator.svg)](https://badge.fury.io/rb/toy-robot-simulator)
 
 The Ruby gem let the toy robot move a table painlessly, easily, and most importantly, **it does not fall from the table** 
 
-- [Full gem documentation (version 0.0.3)](https://www.rubydoc.info/gems/toy-robot-simulator/0.0.3/)
+- [Full gem documentation](https://www.rubydoc.info/gems/toy-robot-simulator/0.0.3/)
 # Installation
 ```
 gem install toy-robot-simulator
