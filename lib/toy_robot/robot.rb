@@ -29,7 +29,6 @@ module ToyRobot
     # @raise [Surface::InvalidFacing] if the facing value is other than [NORTH SOUTH EAST WEST]
     #
     def place(x, y, facing)
-      return if @placed
       raise Surface::TableIsNotSet if @table.nil?
       raise Surface::TableOutOfBound unless @table.can_be_placed?(x, y)
       raise ToyRobot::InvalidFacing unless DIRECTIONS.include?(facing)

@@ -10,7 +10,7 @@ The Ruby gem let the toy robot move a table painlessly, easily, and most importa
 gem install toy-robot-simulator
 ```
 ```ruby
-gem "toy-robot-simulator", "~> 0.0.3"
+gem "toy-robot-simulator", "~> 0.0.4"
 ```
 ```
 bundle install
@@ -64,9 +64,8 @@ REPORT
 ```
 
 ## Change Log
-- Updated documentation
-- Added more readable comments in the code
-- Updated the CommandSetLoader
+- Based on the coding challenge brief, Robot can be placed on the table again. This issue has been fixed
+- Update the robot spec document
 
 ## TODO
 
